@@ -1,7 +1,28 @@
-﻿namespace Shopping.Api
+﻿using MongoDB.Driver;
+
+namespace Shopping.Api
 {
     public class ProductDbContext
     {
+        public IMongoCollection<Product> Products { get; set; }
+
+        public ProductDbContext(IConfiguration configuration)
+        {
+            var client = new MongoClient(configuration["DatabaseSettings:ConnectionString"]);
+            var database = client.GetDatabase(configuration["DatabaseSettings:DatabaseName"]);
+
+            Products = database.GetCollection<Product>(configuration["DatabaseSettings:CollectionName"]);
+            SeedProductsIfEmpty().Wait();
+        }
+
+        private async Task SeedProductsIfEmpty()
+        {
+            if (!Products.Find(p => true).Any())
+            {
+                await Products.InsertManyAsync(GetProducts());
+            }
+        }
+
         public static List<Product> GetProducts()
         {
             return new List<Product>
