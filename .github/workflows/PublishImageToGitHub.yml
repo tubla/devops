@@ -23,6 +23,6 @@ jobs:
     - name: Build and push docker images
       uses: docker/build-push-action@v4
       with:
-        context: Shopping/
+        context: Shopping.Client/
         push: true
         tags: rahul26s/shoppingapp:latest
