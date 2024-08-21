@@ -8,15 +8,15 @@ EXPOSE 8080
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["Shopping/Shopping.Client/Shopping.Client.csproj", "Shopping/Shopping.Client/"]
-RUN dotnet restore "./Shopping/Shopping.Client/Shopping.Client.csproj"
+COPY ["Shopping.Client/Shopping.Client.csproj", "Shopping.Client/"]
+RUN dotnet restore "./Shopping.Client/Shopping.Client.csproj"
 COPY . .
-WORKDIR "/src/Shopping/Shopping.Client"
-RUN dotnet build "./Shopping/Shopping.Client.csproj" -c $BUILD_CONFIGURATION -o /app/build
+WORKDIR "/src/Shopping.Client"
+RUN dotnet build "./Shopping.Client.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "./Shopping/Shopping.Client.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "./Shopping.Client.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
 WORKDIR /app
