@@ -12,9 +12,19 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{
 		..\.github\workflows\PublishImageToGitHub.yml = ..\.github\workflows\PublishImageToGitHub.yml
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shopping.Api", "Shopping.Api\Shopping.Api.csproj", "{06D44226-CEEA-4C4F-9181-8EF824394196}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shopping.Api", "Shopping.Api\Shopping.Api.csproj", "{06D44226-CEEA-4C4F-9181-8EF824394196}"
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{D462FFA9-A251-4F93-8548-E3FB1F5D6908}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "kube-configs", "kube-configs", "{7B720EB2-AA6D-4674-92C9-8327EFA54184}"
+	ProjectSection(SolutionItems) = preProject
+		Kubernetes\mongo-configmap.yaml = Kubernetes\mongo-configmap.yaml
+		Kubernetes\mongo-secret.yaml = Kubernetes\mongo-secret.yaml
+		Kubernetes\mongo.yaml = Kubernetes\mongo.yaml
+		Kubernetes\shoppingapi-configmap.yaml = Kubernetes\shoppingapi-configmap.yaml
+		Kubernetes\shoppingapi.yaml = Kubernetes\shoppingapi.yaml
+		Kubernetes\shoppingclient.yaml = Kubernetes\shoppingclient.yaml
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
