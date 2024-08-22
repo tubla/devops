@@ -1,0 +1,37 @@
+version: '3.4'
+
+services:
+  shopping.api:
+    container_name: shopping_api
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - "DatabaseSettings:ConnectionString=mongodb://shoppingmongo_db:27017" # Connection string for MongoDB
+    depends_on:
+      - shopping.db
+    ports:
+      - "8000:8080" # Port forwarding to access API from local machine
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
+      - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
+
+  shopping.client:
+    container_name: shopping_client
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - "ShoppingApiUrl=http://shopping_api:8080"  # Corrected to include port
+    depends_on:
+      - shopping.api # Assuming the client depends on the API service
+    ports:
+      - "8001:8080" # Port forwarding to access client from local machine
+
+  shopping.db:
+    container_name: shoppingmongo_db # Ensure this name matches in your connection string
+    restart: always
+    ports:
+      - "27017:27017" # Port forwarding for MongoDB
+    volumes:
+      - ${WEBAPP_STORAGE_HOME}/site:/data/db  # Fixed volume declaration
+
+networks:
+  default:
+    driver: bridge
