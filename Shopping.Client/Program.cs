@@ -11,7 +11,11 @@ namespace Shopping.Client
 
             builder.Services.AddHttpClient("ShoppingAppClient", client =>
             {
-                client.BaseAddress = new Uri("http://localhost:5000/");
+                // we need to read the api base address from configuration as the port will change when running through docker.
+                // client.BaseAddress = new Uri("http://localhost:5000/");
+
+                client.BaseAddress = new Uri(builder.Configuration["ShoppingApiUrl"]!);
+                //client.BaseAddress = new Uri("http://shopping_api:8001/");
             });
 
             var app = builder.Build();
