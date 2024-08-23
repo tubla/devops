@@ -3,7 +3,14 @@
 # https://docs.microsoft.com/azure/devops/pipelines/languages/docker
 
 trigger:
-- main
+  branches:
+    include:
+    - main
+  # trigger build when changes made only in shopping.api and respective kubernetes manifest file
+  paths:
+    include:
+    - Shopping.Api/*
+    - aks/shoppingapi.yml
 
 resources:
 - repo: self
@@ -41,8 +48,9 @@ stages:
         tags: |
           $(tag)
 
-    - upload: manifests
-      artifact: manifests
+    # change the default folder path from manifests to our folder path 
+    - upload: aks
+      artifact: aks
 
 - stage: Deploy
   displayName: Deploy stage
@@ -70,11 +78,11 @@ stages:
             inputs:
               action: deploy
               # Change the manifests path yml file name from deployment to shoppingapi.yml(copy this yml file from aks->manifest)
-              # Also remove the service.yml file because in our case both deployment and service are there in the same file 
+              # Remove the service.yml file because in our case both deployment and service are there in the same file 
+              # Change the default folder path from manifests to our folder path 
               manifests: |
-                $(Pipeline.Workspace)/manifests/shoppingapi.yml
+                $(Pipeline.Workspace)/aks/shoppingapi.yml
               imagePullSecrets: |
                 $(imagePullSecret)
               containers: |
                 $(containerRegistry)/$(imageRepository):$(tag)
-
