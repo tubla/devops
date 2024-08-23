@@ -69,9 +69,10 @@ stages:
             displayName: Deploy to Kubernetes cluster
             inputs:
               action: deploy
+              # Change the manifests path yml file name from deployment to shoppingapi.yml(copy this yml file from aks->manifest)
+              # Also remove the service.yml file because in our case both deployment and service are there in the same file 
               manifests: |
-                $(Pipeline.Workspace)/manifests/deployment.yml
-                $(Pipeline.Workspace)/manifests/service.yml
+                $(Pipeline.Workspace)/manifests/shoppingapi.yml
               imagePullSecrets: |
                 $(imagePullSecret)
               containers: |
