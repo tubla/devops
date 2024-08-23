@@ -21,7 +21,7 @@ variables:
   dockerRegistryServiceConnection: '9f79d3aa-3ce0-4cd4-85a8-daa3fd5e50aa'
   imageRepository: 'shoppingapi' # this name should be taken from Azure Container Registry -> Services -> Repositories
   containerRegistry: 'rrshoppingacr.azurecr.io'
-  dockerfilePath: '**/Dockerfile'
+  dockerfilePath: 'Shopping.Api/Dockerfile' # update the Dockerfile path
   tag: '$(Build.BuildId)'
   imagePullSecret: 'rrshoppingacr1004269b-auth'
 
