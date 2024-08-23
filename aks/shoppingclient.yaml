@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: shoppingclient-deployment
+  labels:
+    app: shoppingclient
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: shoppingclient
+  template:
+    metadata:
+      labels:
+        app: shoppingclient
+    spec:
+      containers:
+        - name: shoppingclient
+          image: rrshoppingacr.azurecr.io/shoppingapp:v1 #change here
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8080
+          imagePullSecrets:  # add secret
+            - name: acr-secret # add secret
+          env:
+            - name: ASPNETCORE_ENVIRONMENT
+              value: Development
+            - name: ShoppingApiUrl
+              valueFrom:
+                  configMapKeyRef:
+                    name: shoppingapi-configmap
+                    key: shoppingapi_url                    
+          resources:
+            requests:
+              memory: "512Mi"
+              cpu: "250m"
+            limits:
+              memory: "1Gi"
+              cpu: "500m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: shoppingclient-service
+spec:
+  type: LoadBalancer   # updated NodePort to LoadBalancer. NodePort helps to access app running in local kubernetes cluster.
+  selector:
+    app: shoppingclient
+  ports:
+    - protocol: TCP
+      port: 8080  # update to the exposed port mentioned in the docker file.
