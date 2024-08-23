@@ -19,7 +19,7 @@ variables:
 
   # Container registry service connection established during pipeline creation
   dockerRegistryServiceConnection: '9f79d3aa-3ce0-4cd4-85a8-daa3fd5e50aa'
-  imageRepository: 'shoppingclient'
+  imageRepository: 'shoppingapp' # this name should be taken from Azure Container Registry -> Services -> Repositories
   containerRegistry: 'rrshoppingacr.azurecr.io'
   dockerfilePath: '**/Dockerfile'
   tag: '$(Build.BuildId)'
